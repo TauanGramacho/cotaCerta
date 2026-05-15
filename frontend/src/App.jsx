@@ -495,7 +495,7 @@ function App() {
               </div>
             </div>
 
-            <nav className="grid grid-cols-4 gap-2 sm:flex">
+            <nav className="grid grid-cols-2 gap-2 sm:flex">
               {[
                 ["quote", ClipboardList, "Orcamento"],
                 ["services", Wrench, "Servicos"],

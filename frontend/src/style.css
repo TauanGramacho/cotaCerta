@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@source "./**/*.{js,jsx}";
+@source "../index.html";
 
 :root {
   color: #17211f;
