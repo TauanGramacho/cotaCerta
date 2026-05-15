@@ -1,0 +1,321 @@
+@import "tailwindcss";
+
+:root {
+  color: #17211f;
+  background: #f4f7f5;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background:
+    linear-gradient(180deg, rgba(244, 247, 245, 0.98), rgba(237, 242, 239, 0.98));
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+::selection {
+  background: #0f6b57;
+  color: #fff;
+}
+
+.field {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.field span {
+  color: #52635d;
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  border: 1px solid #d9e1dc;
+  border-radius: 8px;
+  background: #fff;
+  color: #17211f;
+  font-weight: 700;
+  outline: none;
+  padding: 0.75rem 0.85rem;
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.field textarea {
+  resize: vertical;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: #0f6b57;
+  box-shadow: 0 0 0 3px rgba(15, 107, 87, 0.12);
+}
+
+.field input[readonly] {
+  background: #f4f7f5;
+  color: #66756f;
+}
+
+.search-field {
+  display: flex;
+  min-width: min(100%, 260px);
+  align-items: center;
+  gap: 0.55rem;
+  border: 1px solid #d9e1dc;
+  border-radius: 8px;
+  background: #fff;
+  padding: 0.6rem 0.75rem;
+  color: #66756f;
+}
+
+.search-field input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: none;
+  color: #17211f;
+  font-weight: 700;
+}
+
+.print-area {
+  display: none;
+}
+
+@page {
+  size: A4;
+  margin: 12mm;
+}
+
+@media print {
+  body {
+    background: #fff;
+  }
+
+  .app-shell {
+    display: none !important;
+  }
+
+  .print-area {
+    display: block;
+    color: #17211f;
+    font-family:
+      Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      sans-serif;
+  }
+
+  .print-sheet {
+    width: 100%;
+  }
+
+  .print-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20mm;
+    border-bottom: 2px solid #0f6b57;
+    padding-bottom: 8mm;
+  }
+
+  .print-kicker {
+    margin: 0 0 3mm;
+    color: #b06f13;
+    font-size: 9pt;
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+
+  .print-header h1 {
+    margin: 0 0 2mm;
+    color: #0d3029;
+    font-size: 22pt;
+    font-weight: 900;
+  }
+
+  .print-header p,
+  .print-grid p,
+  .print-table p,
+  .print-notes p,
+  .print-footer p {
+    margin: 0;
+    color: #52635d;
+    font-size: 9.5pt;
+    font-weight: 600;
+    line-height: 1.45;
+  }
+
+  .print-number {
+    min-width: 46mm;
+    border: 1px solid #d9e1dc;
+    border-radius: 8px;
+    padding: 5mm;
+    text-align: right;
+  }
+
+  .print-number span,
+  .print-grid span,
+  .print-summary span,
+  .print-notes span,
+  .print-footer span {
+    display: block;
+    color: #66756f;
+    font-size: 8.5pt;
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+
+  .print-number strong {
+    display: block;
+    margin: 1mm 0;
+    color: #0d3029;
+    font-size: 16pt;
+    font-weight: 900;
+  }
+
+  .print-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5mm;
+    margin-top: 7mm;
+  }
+
+  .print-grid > div {
+    border: 1px solid #d9e1dc;
+    border-radius: 8px;
+    padding: 5mm;
+  }
+
+  .print-grid strong {
+    display: block;
+    margin: 1.5mm 0;
+    color: #132622;
+    font-size: 13pt;
+    font-weight: 900;
+  }
+
+  .print-table {
+    width: 100%;
+    margin-top: 7mm;
+    border-collapse: collapse;
+    font-size: 9.5pt;
+  }
+
+  .print-table th {
+    background: #edf7f3;
+    color: #0d3029;
+    font-weight: 900;
+    text-align: left;
+  }
+
+  .print-table th,
+  .print-table td {
+    border: 1px solid #d9e1dc;
+    padding: 3.5mm;
+    vertical-align: top;
+  }
+
+  .print-table td {
+    color: #20312d;
+    font-weight: 700;
+  }
+
+  .print-table strong {
+    display: block;
+    color: #132622;
+    font-weight: 900;
+  }
+
+  .print-summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5mm;
+    margin-top: 7mm;
+  }
+
+  .print-summary > div {
+    border-radius: 8px;
+    background: #132622;
+    color: #fff;
+    padding: 5mm;
+  }
+
+  .print-summary strong {
+    display: block;
+    margin-top: 2mm;
+    font-size: 16pt;
+    font-weight: 900;
+  }
+
+  .print-notes {
+    display: grid;
+    gap: 4mm;
+    margin-top: 7mm;
+  }
+
+  .print-notes > div {
+    border: 1px solid #d9e1dc;
+    border-radius: 8px;
+    padding: 4mm;
+  }
+
+  .print-footer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8mm;
+    margin-top: 12mm;
+    align-items: end;
+  }
+
+  .print-footer > div:first-child {
+    border-top: 1px solid #20312d;
+    padding-top: 3mm;
+  }
+
+  .print-footer > div:last-child {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 2mm;
+  }
+
+  .print-footer svg {
+    width: 14pt;
+    height: 14pt;
+    color: #0f6b57;
+  }
+}
