@@ -4,7 +4,11 @@ Prototipo web para uma materia de processos de negocio. O CotaCerta ajuda oficin
 
 ## Projeto online
 
-Aplicacao configurada para publicacao na Vercel. A URL final sera gerada no deploy da conta Vercel do projeto.
+Aplicacao publicada pela Vercel:
+
+```txt
+https://cotacerta-orcamentos.vercel.app
+```
 
 O projeto tambem possui uma rota de backend serverless em `/api/health`.
 
