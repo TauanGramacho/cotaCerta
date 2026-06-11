@@ -17,6 +17,7 @@ https://tauangramacho.github.io/cotaCerta/
 - Monta um orcamento escolhendo cliente e servicos cadastrados.
 - Calcula total e prazo estimado automaticamente.
 - Gera documento para impressao ou salvamento em PDF.
+- Permite compartilhamento digital do orcamento com texto pronto para WhatsApp.
 - Mantem historico local de orcamentos com status.
 - Inclui um backend simples em Node.js/Express para demonstrar API.
 

@@ -9,9 +9,11 @@ import {
   FileText,
   History,
   ListChecks,
+  MessageCircle,
   Plus,
   Printer,
   Search,
+  Share2,
   ShieldCheck,
   Trash2,
   UserRound,
@@ -175,6 +177,65 @@ function makeQuoteNumber() {
   const date = today.toISOString().slice(2, 10).replace(/-/g, "");
   const suffix = Math.random().toString(36).slice(2, 6).toUpperCase();
   return `CC-${date}-${suffix}`;
+}
+
+function getShareText(quote) {
+  if (!quote) return "";
+
+  const serviceLines = quote.items
+    .map(
+      (item) =>
+        `- ${item.quantity}x ${item.name}: ${formatCurrency(item.subtotal)}`
+    )
+    .join("\n");
+
+  return [
+    `Orcamento ${quote.number} - ${quote.company.companyName}`,
+    "",
+    `Cliente: ${quote.client?.name || "Nao informado"}`,
+    `Veiculo: ${quote.vehicle?.model || "Nao informado"}`,
+    `Placa: ${quote.vehicle?.plate || "Nao informada"}`,
+    "",
+    "Servicos:",
+    serviceLines,
+    "",
+    `Prazo estimado: ${formatDuration(quote.totalHours)}`,
+    `Total: ${formatCurrency(quote.total)}`,
+    `Validade: ${formatDate(quote.validUntil)}`,
+    "",
+    quote.notes ? `Observacoes: ${quote.notes}` : "",
+    "",
+    "Documento gerado pelo CotaCerta."
+  ]
+    .filter(Boolean)
+    .join("\n");
+}
+
+async function copyToClipboard(text) {
+  if (!text) return false;
+
+  try {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+  } catch {
+    // Fallback abaixo.
+  }
+
+  const textarea = document.createElement("textarea");
+  textarea.value = text;
+  textarea.setAttribute("readonly", "");
+  textarea.style.position = "fixed";
+  textarea.style.left = "-9999px";
+  document.body.appendChild(textarea);
+  textarea.select();
+
+  try {
+    return document.execCommand("copy");
+  } finally {
+    document.body.removeChild(textarea);
+  }
 }
 
 function App() {
@@ -362,6 +423,37 @@ function App() {
       setPrintQuote(quote);
       window.setTimeout(() => window.print(), 120);
     }
+  }
+
+  async function shareQuote(quote = currentQuote) {
+    if (!quote) {
+      showToast("Gere um orcamento antes de compartilhar.");
+      return;
+    }
+
+    const text = getShareText(quote);
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: `Orcamento ${quote.number}`,
+          text
+        });
+        showToast("Orcamento compartilhado.");
+        return;
+      } catch {
+        // Se o usuario cancelar ou o navegador bloquear, usa copia/WhatsApp.
+      }
+    }
+
+    await copyToClipboard(text);
+    const phone = String(quote.client?.phone || "").replace(/\D/g, "");
+    const whatsappUrl = phone
+      ? `https://wa.me/55${phone.startsWith("55") ? phone.slice(2) : phone}?text=${encodeURIComponent(text)}`
+      : `https://wa.me/?text=${encodeURIComponent(text)}`;
+
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+    showToast("Texto do orcamento copiado e WhatsApp aberto.");
   }
 
   function printExistingQuote(quote) {
@@ -568,6 +660,7 @@ function App() {
               totalHours={totalHours}
               currentQuote={currentQuote}
               saveQuote={saveQuote}
+              shareQuote={shareQuote}
             />
           ) : null}
 
@@ -597,6 +690,7 @@ function App() {
               quotes={quotes}
               updateQuoteStatus={updateQuoteStatus}
               printExistingQuote={printExistingQuote}
+              shareQuote={shareQuote}
               duplicateQuote={duplicateQuote}
               clearQuotes={clearQuotes}
             />
@@ -642,7 +736,8 @@ function QuoteView({
   subtotal,
   totalHours,
   currentQuote,
-  saveQuote
+  saveQuote,
+  shareQuote
 }) {
   return (
     <section className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_360px]">
@@ -832,6 +927,14 @@ function QuoteView({
             >
               <Download className="h-4 w-4" />
               Gerar PDF
+            </button>
+            <button
+              type="button"
+              onClick={() => shareQuote()}
+              className="inline-flex items-center justify-center gap-2 rounded-lg border border-[#d9e1dc] bg-white px-4 py-3 font-black text-[#20312d] transition hover:bg-[#edf7f3]"
+            >
+              <Share2 className="h-4 w-4" />
+              Compartilhar digitalmente
             </button>
           </div>
         </div>
@@ -1100,6 +1203,7 @@ function HistoryView({
   quotes,
   updateQuoteStatus,
   printExistingQuote,
+  shareQuote,
   duplicateQuote,
   clearQuotes
 }) {
@@ -1172,6 +1276,14 @@ function HistoryView({
                       title="Gerar PDF"
                     >
                       <Printer className="h-4 w-4" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => shareQuote(quote)}
+                      className="inline-grid h-9 w-9 place-items-center rounded-lg border border-[#d9e1dc] bg-white text-[#20312d]"
+                      title="Compartilhar digitalmente"
+                    >
+                      <MessageCircle className="h-4 w-4" />
                     </button>
                     <button
                       type="button"
