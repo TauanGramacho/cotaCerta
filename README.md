@@ -7,7 +7,7 @@ Prototipo web para uma materia de processos de negocio. O CotaCerta ajuda oficin
 Aplicacao publicada pela Vercel:
 
 ```txt
-https://cotacerta-orcamentos.vercel.app
+https://cotacerta-app.vercel.app
 ```
 
 O projeto tambem possui uma rota de backend serverless em `/api/health`.
