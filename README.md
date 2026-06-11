@@ -4,11 +4,9 @@ Prototipo web para uma materia de processos de negocio. O CotaCerta ajuda oficin
 
 ## Projeto online
 
-Frontend publicado via GitHub Pages:
+Aplicacao configurada para publicacao na Vercel. A URL final sera gerada no deploy da conta Vercel do projeto.
 
-```txt
-https://tauangramacho.github.io/cotaCerta/
-```
+O projeto tambem possui uma rota de backend serverless em `/api/health`.
 
 ## O que o sistema faz
 
@@ -19,7 +17,18 @@ https://tauangramacho.github.io/cotaCerta/
 - Gera documento para impressao ou salvamento em PDF.
 - Permite compartilhamento digital do orcamento com texto pronto para WhatsApp.
 - Mantem historico local de orcamentos com status.
-- Inclui um backend simples em Node.js/Express para demonstrar API.
+- Salva os dados no localStorage do navegador, sem banco de dados.
+- Inclui uma rota simples de backend na Vercel para demonstrar API.
+
+## Backend na Vercel
+
+Rota de verificacao:
+
+```txt
+/api/health
+```
+
+Essa rota confirma a camada de backend do prototipo. Os dados cadastrados pelo usuario ficam no localStorage do navegador, porque o projeto nao usa banco de dados.
 
 ## Rodar frontend localmente
 
@@ -60,4 +69,4 @@ Rotas principais:
 
 ## Observacao sobre hospedagem
 
-O GitHub Pages hospeda apenas o frontend estatico. O backend simples fica no repositorio para demonstracao local da API e pode ser publicado futuramente em um servico como Render, Railway, Fly.io ou similar.
+A hospedagem principal do projeto deve ser feita pela Vercel, pois ela publica o frontend e tambem permite rotas `/api`. Como o projeto nao usa banco de dados, clientes, servicos e orcamentos sao salvos no localStorage do proprio navegador.
