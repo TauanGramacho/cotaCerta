@@ -1,18 +1,26 @@
 # CotaCerta
 
-Protótipo web para uma matéria de processos de negócio. A startup fictícia **CotaCerta** ajuda oficinas e pequenos prestadores a criar orçamentos padronizados, evitando erro de digitação em valores enviados por WhatsApp.
+Prototipo web para uma materia de processos de negocio. O CotaCerta ajuda oficinas e pequenos prestadores de servico a criar orcamentos padronizados, reduzindo erros de digitacao e melhorando a apresentacao para o cliente.
+
+## Projeto online
+
+Frontend publicado via GitHub Pages:
+
+```txt
+https://tauangramacho.github.io/cotaCerta/
+```
 
 ## O que o sistema faz
 
-- Cadastra serviços com valor, categoria, descrição e prazo.
-- Cadastra clientes com contato, veículo e placa.
-- Monta um orçamento escolhendo cliente e serviços cadastrados.
+- Cadastra servicos com valor, categoria, descricao e prazo.
+- Cadastra clientes com contato, veiculo e placa.
+- Monta um orcamento escolhendo cliente e servicos cadastrados.
 - Calcula total e prazo estimado automaticamente.
-- Gera um documento em formato de impressão/PDF pelo navegador.
-- Mantém histórico local de orçamentos com status: enviado, aprovado ou recusado.
-- Salva os dados no `localStorage`, sem banco de dados obrigatório.
+- Gera documento para impressao ou salvamento em PDF.
+- Mantem historico local de orcamentos com status.
+- Inclui um backend simples em Node.js/Express para demonstrar API.
 
-## Rodar localmente
+## Rodar frontend localmente
 
 ```bash
 npm install
@@ -25,10 +33,30 @@ Depois abra:
 http://localhost:5173
 ```
 
-## Gerar PDF
+## Rodar backend localmente
 
-Na tela `Orcamento`, clique em `Gerar PDF`. O navegador abre a janela de impressão; escolha `Salvar como PDF`.
+```bash
+cd backend
+npm install
+npm run dev
+```
 
-## Contexto da ideia
+API local:
 
-O fluxo modela uma oficina que hoje escreve orçamentos manualmente em mensagem de WhatsApp. A proposta do CotaCerta é transformar esse processo em uma rotina simples: cadastrar serviços uma vez, selecionar o cliente, gerar o documento e acompanhar o status do orçamento.
+```txt
+http://localhost:3001/api/health
+```
+
+Rotas principais:
+
+- `GET /api/services`
+- `POST /api/services`
+- `GET /api/clients`
+- `POST /api/clients`
+- `GET /api/quotes`
+- `POST /api/quotes`
+- `PATCH /api/quotes/:id/status`
+
+## Observacao sobre hospedagem
+
+O GitHub Pages hospeda apenas o frontend estatico. O backend simples fica no repositorio para demonstracao local da API e pode ser publicado futuramente em um servico como Render, Railway, Fly.io ou similar.
